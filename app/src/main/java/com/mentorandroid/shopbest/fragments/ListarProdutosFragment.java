@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,7 +24,7 @@ import com.mentorandroid.shopbest.MainActivity;
 import com.mentorandroid.shopbest.ProdutoDetalheActivity;
 import com.mentorandroid.shopbest.R;
 import com.mentorandroid.shopbest.adapters.MyRecyclerAdapter;
-import com.mentorandroid.shopbest.models.Produto;
+import com.mentorandroid.shopbest.models.Product;
 import com.mentorandroid.shopbest.util.Util;
 
 import org.json.JSONArray;
@@ -33,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +41,7 @@ import java.util.List;
  */
 public class ListarProdutosFragment extends Fragment {
 
-    private List<Produto> produtosList = new ArrayList<Produto>();
+    private List<Product> produtosList = new ArrayList<Product>();
 
     private RecyclerView mRecyclerView;
 
@@ -100,11 +100,9 @@ public class ListarProdutosFragment extends Fragment {
                             adapter = new MyRecyclerAdapter(ctx,ListarProdutosFragment.this , produtosList);
                             adapter.setOnCardViewClickListener(new MyRecyclerAdapter.OnCardViewClickListener() {
                                 @Override
-                                public void onClick(Produto produto) {
-
+                                public void onClick(Product produto) {
                                     Log.i("DEBUG","Entrou 02");
                                     Intent intent = new Intent(ctx, ProdutoDetalheActivity.class);
-                                    //intent.putExtra()
                                     intent.putExtra("object", (Serializable) produto);
                                     startActivity(intent);
 
@@ -139,43 +137,19 @@ public class ListarProdutosFragment extends Fragment {
 
             /*Initialize array if null*/
             if (null == produtosList) {
-                produtosList = new ArrayList<Produto>();
+                produtosList = new ArrayList<Product>();
             }
 
             for (int i = 0; i < posts.length(); i++) {
                 JSONObject post = posts.optJSONObject(i);
 
-                Produto item = new Produto();
-                item.setProdutoId(Long.valueOf(post.optString("id")));
-                item.setNome(post.optString("nome"));
+                Product item = new Product();
+                item.setId(Integer.valueOf(post.optString("id")));
+                item.setName(post.optString("nome"));
                 item.setTipo(post.optString("tipo"));
                 item.setImgUrl(post.optString("imgurl"));
-                /*
-                logradouro: "Av. Brasília",
-                        numero: "1313",
-                        complemento: "Lj 04 - Sob Loja",
-                        bairro: "São Benedito",
-                        cidade: "Santa Luzia",
-                        estado: "MG",
-                        cep: ""
+                item.setPrice(BigDecimal.valueOf(Long.parseLong(post.optString("preco"))));
 
-
-                */
-//                Endereco endereco = new Endereco();
-//                JSONObject enderecoPost = post.optJSONObject("endereco");
-//                endereco.setLogradouro(enderecoPost.optString("logradouro"));
-//                endereco.setNumero(enderecoPost.getString("numero"));
-//                endereco.setBairro(enderecoPost.getString("bairro"));
-//                endereco.setCidade(enderecoPost.getString("cidade"));
-//                endereco.setEstado(enderecoPost.getString("estado"));
-//                item.setEndereco(endereco);
-
-//
-//                //item.setEndereco(post.optString("endereco"));
-//                item.setFlagPeidoCadastrado(post.optString("flag_pedido_cadastro"));
-//                item.setLatitude(post.optString("latitude"));
-//                item.setLongitude(post.optString("pedido_url"));
-//                item.setUrlPedidoWeb(post.optString(""));
                 produtosList.add(item);
             }
         } catch (JSONException e) {

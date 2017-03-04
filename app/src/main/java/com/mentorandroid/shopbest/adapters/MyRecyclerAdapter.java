@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.mentorandroid.shopbest.R;
 
-import com.mentorandroid.shopbest.models.Produto;
+import com.mentorandroid.shopbest.models.Product;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
 
-    private List<Produto> produtosList;
+    private List<Product> produtosList;
 
     private Context mContext;
     private FragmentManager fmAdapter;
@@ -38,8 +38,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         this.onCardViewClickListener = onCardViewClickListener;
     }
 
-    public MyRecyclerAdapter(Context context, Fragment f, List<Produto> restaurantList) {
-        this.produtosList = restaurantList;
+    public MyRecyclerAdapter(Context context, Fragment f, List<Product> productList) {
+        this.produtosList = productList;
         this.mContext = context;
         //this.fmAdapter = fm;
         this.fAdapter = f;
@@ -52,7 +52,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
         return mh;
     }
-    // Inserir isso depois no vídeo
+    // Inserir isso depois no
     class ViewHolder extends RecyclerView.ViewHolder{
         CardView cardView;
         ImageView thumbnail;
@@ -60,7 +60,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         TextView descricao;
         public ViewHolder(View itemView){
             super(itemView);
-
             thumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
             title = (TextView) itemView.findViewById(R.id.title);
             descricao = (TextView) itemView.findViewById(R.id.descricao);
@@ -68,40 +67,17 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             cardView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-
                    // CallIntent(getAdapterPosition());
-
-
                 }
             });
         }
-        /*
-        private void CallIntent(int position){
 
-            /*
-            Intent intent = new Intent(mContext, DetailActivity.class);
-            Restaurant feed = new Restaurant();
-            intent.putExtra("name", restaurantList.get(position));
-            mContext.startActivity(intent);
-            //
-
-            //Intent intent = new Intent(mContext, DetailActivity.class);
-            //intent.putExtra("object", restaurantList.get(position));
-            //mContext.startActivity(intent);
-
-            Intent i = new Intent(mContext, MainActivity.class);
-            i.putExtra("flag", "02");
-            mContext.startActivity(i);
-
-        }*/
     }
 
     @Override
     public void onBindViewHolder(ViewHolder feedListRowHolder, int i) {
 
-        final Produto produto = produtosList.get(i);
-
-
+        final Product produto = produtosList.get(i);
 
         Picasso.with(mContext).load(produto.getImgUrl())
                 .error(R.drawable.placeholder)
@@ -109,7 +85,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 .placeholder(R.drawable.placeholder)
                 .into(feedListRowHolder.thumbnail);
 
-        feedListRowHolder.title.setText(Html.fromHtml(produto.getNome()));
+        feedListRowHolder.title.setText(Html.fromHtml(produto.getName()));
 
         //String info = "Endereço: " + restaurant.getEndereco().toString() + "<br />Tipo: " + restaurant.getTipo().toString() + "<br />Telefone: " + restaurant.getTelefone().toString() + "<br />Celular: " + restaurant.getCelular().toString();
         //Endereco endereco = new Endereco();
@@ -117,7 +93,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
         //String enderecoPrint = endereco.getLogradouro().toString() + "<br />" + endereco.getBairro().toString();
 
-        String info = "<br /> Preço R$33,00";
+        String info = "<br /> Preço R$"+produto.getPrice();
 
         //String info = enderecoPrint + "<br />Tipo: " + restaurant.getTipo().toString() + "<br />Telefone: " + restaurant.getTelefone().toString() + "<br />Celular: " + restaurant.getCelular().toString();
 
@@ -143,7 +119,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     public interface OnCardViewClickListener {
 
         void onClick(
-                Produto produto
+                Product produto
         );
 
     }

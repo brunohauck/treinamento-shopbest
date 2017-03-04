@@ -16,30 +16,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.mentorandroid.shopbest.fragments.ListarProdutosFragment;
-import com.mentorandroid.shopbest.models.Produto;
+import com.mentorandroid.shopbest.models.Product;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    public List<Produto> produtosList = new ArrayList<Produto>();
+    public List<Product> produtosList = new ArrayList<Product>();
 
-    public Produto produtoClick = new Produto();
+    public Product produtoClick = new Product();
 
-    public void setprodutoClick(Produto produtoClick) {
+    public void setprodutoClick(Product produtoClick) {
         this.produtoClick = produtoClick;
     }
 
-    public List<Produto> getRestaurantList() {
+    public List<Product> getRestaurantList() {
         return produtosList;
     }
 
 
-    public void setProdutosList (List<Produto> restaurantList) {
+    public void setProdutosList (List<Product> restaurantList) {
         this.produtosList = restaurantList;
     }
 
