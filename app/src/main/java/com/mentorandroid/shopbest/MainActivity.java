@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         this.produtoClick = produtoClick;
     }
 
-    public List<Product> getRestaurantList() {
+    public List<Product> getProdutosList() {
         return produtosList;
     }
 
@@ -121,8 +121,14 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        Fragment fragment = null;
+        String title = "Produtos";
+
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            fragment = new ListarProdutosFragment();
+            title = "Produtos";
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -133,6 +139,18 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        }
+
+
+        if (fragment != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.container_body, fragment);
+            ft.commit();
+        }
+
+        // set the toolbar title
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

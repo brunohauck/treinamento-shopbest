@@ -148,7 +148,7 @@ public class ListarProdutosFragment extends Fragment {
                 item.setName(post.optString("nome"));
                 item.setTipo(post.optString("tipo"));
                 item.setImgUrl(post.optString("imgurl"));
-                item.setPrice(BigDecimal.valueOf(Long.parseLong(post.optString("preco"))));
+                item.setPrice(new BigDecimal(post.optString("preco")));
 
                 produtosList.add(item);
             }

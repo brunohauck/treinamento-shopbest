@@ -4,19 +4,35 @@ package com.mentorandroid.shopbest.fragments;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.mentorandroid.shopbest.MainActivity;
+import com.mentorandroid.shopbest.ProdutoDetalheActivity;
 import com.mentorandroid.shopbest.R;
 import com.mentorandroid.shopbest.adapters.MyRecyclerAdapter;
 import com.mentorandroid.shopbest.models.Product;
 import com.mentorandroid.shopbest.util.Util;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,8 +80,73 @@ public class ListProductsFragment extends Fragment {
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
+            // Instantiate the RequestQueue.
+            RequestQueue queue = Volley.newRequestQueue(ctx);
+            String url ="http://ub.idsgeo.com/mentor/page/get_all_products";
+            // Request a string response from the provided URL.
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            parseResult(response.toString());
+                            pDialog.dismiss();
+                            adapter = new MyRecyclerAdapter(ctx,ListProductsFragment.this , produtosList);
+                            adapter.setOnCardViewClickListener(new MyRecyclerAdapter.OnCardViewClickListener() {
+                                @Override
+                                public void onClick(Product produto) {
+                                    Log.i("DEBUG","Entrou 02");
+                                    Intent intent = new Intent(ctx, ProdutoDetalheActivity.class);
+                                    intent.putExtra("object", (Serializable) produto);
+                                    startActivity(intent);
+
+                                }
+
+                            });
+                            mRecyclerView.setAdapter(adapter);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //mTextView.setText("That didn't work!");
+
+                }
+            });
+            // Add the request to the RequestQueue.
+            queue.add(stringRequest);
+
+            //new AsyncHttpTask().execute(url);
+
+        }else{
+            Log.d("DEBUG", "NETWORK UNVAILABLE");
         }
+
         return rootView;
+    }
+
+    private void parseResult(String result) {
+        try {
+            JSONObject response = new JSONObject(result);
+            JSONArray posts = response.optJSONArray("produtos");
+
+            /*Initialize array if null*/
+            if (null == produtosList) {
+                produtosList = new ArrayList<Product>();
+            }
+
+            for (int i = 0; i < posts.length(); i++) {
+                JSONObject post = posts.optJSONObject(i);
+                Product item = new Product();
+                item.setId(Integer.valueOf(post.optString("id")));
+                item.setName(post.optString("nome"));
+                item.setTipo(post.optString("tipo"));
+                item.setImgUrl(post.optString("imgurl"));
+                item.setPrice(BigDecimal.valueOf(Long.parseLong(post.optString("preco"))));
+                produtosList.add(item);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //((MainActivity)getActivity()).setProdutosList(produtosList);
     }
 
 }
