@@ -44,6 +44,7 @@ public class ProdutoDetalheActivity extends AppCompatActivity {
 
         ImageView thumbnail = (ImageView) findViewById(R.id.thumbnail);
         TextView textViewProdutoNome = (TextView) findViewById(R.id.textViewProdutoNome);
+        TextView textViewPrice = (TextView) findViewById(R.id.textViewProdutoPrice);
 
         Intent i = getIntent();
         product = new Product();
@@ -51,6 +52,8 @@ public class ProdutoDetalheActivity extends AppCompatActivity {
         //product.setPrice(BigDecimal.valueOf(10));
 
         textViewProdutoNome.setText(product.getName().toString());
+        textViewPrice.setText(product.getPrice().toString());
+
 
         Picasso.with(this).load(product.getImgUrl())
                 .error(R.drawable.placeholder)

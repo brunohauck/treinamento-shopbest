@@ -117,10 +117,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     }
 
     public interface OnCardViewClickListener {
-
         void onClick(
                 Product produto
         );
-
     }
 }

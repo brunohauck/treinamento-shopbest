@@ -23,6 +23,14 @@
         android:text=""
         android:id="@+id/textViewProdutoNome"
         android:textAlignment="center"
-        android:layout_margin="17dp" />
+        android:layout_margin="10dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=""
+        android:id="@+id/textViewProdutoPrice"
+        android:textAlignment="center"
+        android:layout_margin="10dp" />
 
 </LinearLayout>
