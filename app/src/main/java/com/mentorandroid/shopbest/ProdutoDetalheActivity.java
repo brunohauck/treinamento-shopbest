@@ -36,7 +36,7 @@ public class ProdutoDetalheActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
                 Cart cart = CartHelper.getCart();
 
-                cart.add(product, 10);
+                cart.add(product, 1);
                 Intent intent = new Intent(ProdutoDetalheActivity.this, ShoppingCartActivity.class);
                 startActivity(intent);
             }
@@ -48,7 +48,7 @@ public class ProdutoDetalheActivity extends AppCompatActivity {
         Intent i = getIntent();
         product = new Product();
         product = ((Product)i.getSerializableExtra("object"));
-        product.setPrice(BigDecimal.valueOf(10));
+        //product.setPrice(BigDecimal.valueOf(10));
 
         textViewProdutoNome.setText(product.getName().toString());
 
