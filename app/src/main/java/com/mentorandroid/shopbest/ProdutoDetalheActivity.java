@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +29,9 @@ public class ProdutoDetalheActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,7 +42,9 @@ public class ProdutoDetalheActivity extends AppCompatActivity {
 
                 cart.add(product, 1);
                 Intent intent = new Intent(ProdutoDetalheActivity.this, ShoppingCartActivity.class);
+                finish();
                 startActivity(intent);
+
             }
         });
 
@@ -59,6 +65,16 @@ public class ProdutoDetalheActivity extends AppCompatActivity {
                 .error(R.drawable.placeholder)
                 .placeholder(R.drawable.placeholder)
                 .into(thumbnail);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
